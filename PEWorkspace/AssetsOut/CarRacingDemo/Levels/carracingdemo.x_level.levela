@@ -1,0 +1,124 @@
+LevelLoader.CreateGameObject("PEObject21_NavMesh",-0.403843, 0.0, 0.914828, 0.0, 0.0, 1.0, -0.0, 0.0, -0.263916, -0.0, -0.116504, 0.0, 452.357559, -30.0, -766.407707, 1.0, 'CarRacingDemo.x_PEObject21_NavMe.lua', 'CarRacingDemo',0xc7f10fc0, 0x6fb711e4, 0xaf468086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject1_obj0",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -1.98, 0.0, 1224.785247, 0.0, 4.702074, 1.0, 'CarRacingDemo.x_Track_PEObject1_.lua', 'CarRacingDemo',0x4666450f, 0x6c9211e4, 0xbb308086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject11_RoadRight45",1.384805, 0.0, -1.443023, 0.0, 0.0, 2.0, -0.0, 0.0, 1.457453, -0.0, 1.398653, 0.0, -370.87172, 0.0, 1022.828496, 1.0, 'CarRacingDemo.x_Track_PEObject11.lua', 'CarRacingDemo',0x987b7e9e, 0x6c9311e4, 0xb8ec8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject30_RoadLeft45",0.001845, 0.0, 1.999999, 0.0, 0.0, 2.0, -0.0, 0.0, -1.999999, -0.0, 0.001845, 0.0, -1127.952635, 0.0, -1663.579417, 1.0, 'CarRacingDemo.x_Track_PEObject30.lua', 'CarRacingDemo',0x227b7280, 0x6c9511e4, 0xafab8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject19_NavMesh",-0.194842, 0.0, 0.17098, 0.0, 0.0, 1.0, -0.0, 0.0, -1.114461, -0.0, -1.269993, 0.0, -417.320599, -30.0, -894.20592, 1.0, 'CarRacingDemo.x_PEObject19_NavMe.lua', 'CarRacingDemo',0xa44d86c0, 0x6fb711e4, 0xa9b98086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject28_RoadLeft45",1.999928, 0.0, 0.016973, 0.0, 0.0, 2.0, -0.0, 0.0, -0.017397, -0.0, 2.049926, 0.0, -1667.843364, 0.0, -1429.329808, 1.0, 'CarRacingDemo.x_Track_PEObject28.lua', 'CarRacingDemo',0xe6fae740, 0x6c9411e4, 0xa7798086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject13_RoadRight45",-1.462309, 0.0, -1.364424, 0.0, 0.0, 2.0, -0.0, 0.0, 1.371246, -0.0, -1.469621, 0.0, -913.019297, 0.0, 1249.822756, 1.0, 'CarRacingDemo.x_Track_PEObject13.lua', 'CarRacingDemo',0xc1cdcd80, 0x6c9311e4, 0xbbb68086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject8_NavMesh",-0.166051, 0.0, -0.173833, 0.0, 0.0, 1.0, -0.0, 0.0, 0.723107, -0.0, -0.690736, 0.0, 1102.497998, -30.0, 1336.253048, 1.0, 'CarRacingDemo.x_PEObject8_NavMes.lua', 'CarRacingDemo',0xd8bbe100, 0x6fb611e4, 0x8a918086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject21_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, -1674.445629, 0.0, 693.807854, 1.0, 'CarRacingDemo.x_Track_PEObject21.lua', 'CarRacingDemo',0x8340f730, 0x6c9411e4, 0x80028086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject15_NavMesh",-0.790463, 0.0, -0.612509, 0.0, 0.0, 1.0, -0.0, 0.0, 0.178257, -0.0, -0.230047, 0.0, -1549.815038, -30.0, 1703.763099, 1.0, 'CarRacingDemo.x_PEObject15_NavMe.lua', 'CarRacingDemo',0x5a3d1b8f, 0x6fb711e4, 0xa1ca8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject17_NavMesh",-0.845782, 0.0, 0.533528, 0.0, 0.0, 1.0, -0.0, 0.0, -0.146039, -0.0, -0.23151, 0.0, -1450.629768, -30.0, -1590.751776, 1.0, 'CarRacingDemo.x_PEObject17_NavMe.lua', 'CarRacingDemo',0x8633fd8f, 0x6fb711e4, 0xbf888086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject10_NavMesh",-1.026487, 0.0, -0.838077, 0.0, 0.0, 1.0, -0.0, 0.0, 0.156522, -0.0, -0.191711, 0.0, -201.210261, -30.0, 1200.035455, 1.0, 'CarRacingDemo.x_PEObject10_NavMe.lua', 'CarRacingDemo',0x0c4e3db0, 0x6fb711e4, 0xa0868086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject18_RoadLeft45",1.388399, 0.0, -1.439566, 0.0, 0.0, 2.0, -0.0, 0.0, 1.446764, -0.0, 1.395341, 0.0, -1666.10418, 0.0, 1619.43521, 1.0, 'CarRacingDemo.x_Track_PEObject18.lua', 'CarRacingDemo',0x45291f40, 0x6c9411e4, 0x97688086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject22_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, -1673.270962, 0.0, 391.595549, 1.0, 'CarRacingDemo.x_Track_PEObject22.lua', 'CarRacingDemo',0x92f2e8f0, 0x6c9411e4, 0x8e458086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject0_grassland",1.8, 0.0, -0.0, 0.0, 0.0, 1.8, -0.0, 0.0, -0.0, -0.0, 1.8, 0.0, 0.0, -1.0, -0.0, 1.0, 'CarRacingDemo.x_Track_PEObject0_.lua', 'CarRacingDemo',0x31de3a30, 0x6c9211e4, 0x8b118086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject44_RoadStraight",-1.998024, 0.0, -0.088883, 0.0, 0.0, 2.0, -0.0, 0.0, 0.088883, -0.0, -1.998024, 0.0, 1231.077243, 0.0, -293.699385, 1.0, 'CarRacingDemo.x_Track_PEObject44.lua', 'CarRacingDemo',0x9c82ceb0, 0x6c9611e4, 0x99328086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject32_RoadStraight",-1.468408, 0.0, 1.357858, 0.0, 0.0, 2.0, -0.0, 0.0, -1.357858, -0.0, -1.468408, 0.0, -903.839376, 0.0, -1438.476611, 1.0, 'CarRacingDemo.x_Track_PEObject32.lua', 'CarRacingDemo',0x59c4959e, 0x6c9511e4, 0x87408086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject16_NavMesh",-0.226905, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -5.041168, 0.0, -1665.835697, -30.0, 84.642735, 1.0, 'CarRacingDemo.x_PEObject16_NavMe.lua', 'CarRacingDemo',0x69645980, 0x6fb711e4, 0x8b018086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject42_RoadLeft45",-1.598942, 0.0, 1.201409, 0.0, 0.0, 2.0, -0.0, 0.0, -1.261479, -0.0, -1.678889, 0.0, 1283.734816, 0.0, -901.723049, 1.0, 'CarRacingDemo.x_Track_PEObject42.lua', 'CarRacingDemo',0x63d4281e, 0x6c9611e4, 0x94f38086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject13_NavMesh",-0.231374, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -0.627968, 0.0, -912.993575, -30.0, 1524.058008, 1.0, 'CarRacingDemo.x_PEObject13_NavMe.lua', 'CarRacingDemo',0x3c75aa00, 0x6fb711e4, 0x8e058086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject29_RoadLeft45",1.413656, 0.0, 1.414771, 0.0, 0.0, 2.0, -0.0, 0.0, -1.414771, -0.0, 1.413656, 0.0, -1445.948918, -0.0, -1658.375415, 1.0, 'CarRacingDemo.x_Track_PEObject29.lua', 'CarRacingDemo',0x0406a9ee, 0x6c9511e4, 0xb5b18086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject17_RoadLeft45",-0.091179, 0.0, -1.997921, 0.0, 0.0, 2.0, -0.0, 0.0, 1.997921, -0.0, -0.091179, 0.0, -1430.936564, 0.0, 1831.26062, 1.0, 'CarRacingDemo.x_Track_PEObject17.lua', 'CarRacingDemo',0x2fbf8e00, 0x6c9411e4, 0xa80a8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject7_RoadStraight",-0.002088, 0.0, 1.999999, 0.0, 0.0, 2.0, -0.0, 0.0, -1.999999, -0.0, -0.002088, 0.0, 688.672684, 0.0, 1453.778075, 1.0, 'CarRacingDemo.x_Track_PEObject7_.lua', 'CarRacingDemo',0x3e9daa70, 0x6c9311e4, 0x83c38086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject11_NavMesh",-1.0, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -0.230149, 0.0, -532.806256, -30.0, 1031.566709, 1.0, 'CarRacingDemo.x_PEObject11_NavMe.lua', 'CarRacingDemo',0x1cbaf3f0, 0x6fb711e4, 0x9f4c8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject24_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, -1672.104962, 0.0, -214.866081, 1.0, 'CarRacingDemo.x_Track_PEObject24.lua', 'CarRacingDemo',0xab54ab8f, 0x6c9411e4, 0xb8b38086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject38_RoadRight45",1.244908, 0.0, 1.565313, 0.0, 0.0, 2.0, -0.0, 0.0, -1.565313, -0.0, 1.244908, 0.0, 474.14611, 0.0, -685.645407, 1.0, 'CarRacingDemo.x_Track_PEObject38.lua', 'CarRacingDemo',0xf5ca24b0, 0x6c9511e4, 0x88268086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject25_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.02, 0.0, -1671.438139, 0.0, -520.501541, 1.0, 'CarRacingDemo.x_Track_PEObject25.lua', 'CarRacingDemo',0xbb48d66e, 0x6c9411e4, 0xb15a8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject4_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, 1227.720125, 0.0, 912.939043, 1.0, 'CarRacingDemo.x_Track_PEObject4_.lua', 'CarRacingDemo',0x091e98ee, 0x6c9311e4, 0x96198086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject14_NavMesh",-0.785521, 0.0, 0.618835, 0.0, 0.0, 1.0, -0.0, 0.0, -0.182347, -0.0, -0.231463, 0.0, -1067.944373, -30.0, 1722.200501, 1.0, 'CarRacingDemo.x_PEObject14_NavMe.lua', 'CarRacingDemo',0x4c8ec200, 0x6fb711e4, 0xa4638086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject23_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, -1671.864118, 0.0, 88.041264, 1.0, 'CarRacingDemo.x_Track_PEObject23.lua', 'CarRacingDemo',0x9f0f30d1, 0x6c9411e4, 0x96ca8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject18_NavMesh",-0.798811, 0.0, -0.776311, 0.0, 0.0, 1.0, -0.0, 0.0, 0.205881, -0.0, -0.211848, 0.0, -1003.061403, -30.0, -1501.753581, 1.0, 'CarRacingDemo.x_PEObject18_NavMe.lua', 'CarRacingDemo',0x95b93a00, 0x6fb711e4, 0x9e668086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject5_RoadLeft45",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, 1227.915236, 0.0, 1216.721398, 1.0, 'CarRacingDemo.x_Track_PEObject5_.lua', 'CarRacingDemo',0x1530a7a1, 0x6c9311e4, 0xa4378086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject19_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, -1674.760462, 0.0, 1300.662568, 1.0, 'CarRacingDemo.x_Track_PEObject19.lua', 'CarRacingDemo',0x5dd75430, 0x6c9411e4, 0x8c908086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject23_NavMesh",-0.258554, 0.0, 0.173571, 0.0, 0.0, 1.0, -0.0, 0.0, -0.557369, -0.0, -0.830265, 0.0, 1200.141373, -30.0, -961.876464, 1.0, 'CarRacingDemo.x_PEObject23_NavMe.lua', 'CarRacingDemo',0xe7d594f0, 0x6fb711e4, 0xa85d8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject7_NavMesh",-0.240797, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -2.704469, 0.0, 1227.490097, -30.0, 335.55799, 1.0, 'CarRacingDemo.x_PEObject7_NavMes.lua', 'CarRacingDemo',0xafafc2e1, 0x6fb611e4, 0x95868086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject24_NavMesh",-0.282863, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -0.680361, 0.0, 1250.869683, -30.0, -598.636566, 1.0, 'CarRacingDemo.x_PEObject24_NavMe.lua', 'CarRacingDemo',0xf45b7411, 0x6fb711e4, 0xa9a58086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject2_obj0",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, 1227.475464, 0.0, 304.950972, 1.0, 'CarRacingDemo.x_Track_PEObject2_.lua', 'CarRacingDemo',0x6af0d2b0, 0x6c9211e4, 0xad5b8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject26_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.01, 0.0, -1670.688152, 0.0, -823.924924, 1.0, 'CarRacingDemo.x_Track_PEObject26.lua', 'CarRacingDemo',0xd0d83f30, 0x6c9411e4, 0x87678086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject36_RoadRight45",-1.530062, 0.0, 1.287987, 0.0, 0.0, 2.0, -0.0, 0.0, -1.287987, -0.0, -1.530062, 0.0, -93.577068, 0.0, -528.420115, 1.0, 'CarRacingDemo.x_Track_PEObject36.lua', 'CarRacingDemo',0xd124e31e, 0x6c9511e4, 0x8d8b8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject6_RoadLeft45",-1.418109, 0.0, -1.410308, 0.0, 0.0, 2.0, -0.0, 0.0, 1.424411, -0.0, -1.43229, 0.0, 1007.473131, 0.0, 1447.650099, 1.0, 'CarRacingDemo.x_Track_PEObject6_.lua', 'CarRacingDemo',0x25e34080, 0x6c9311e4, 0x892d8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject22_NavMesh",-0.958679, 0.0, 0.284489, 0.0, 0.0, 1.0, -0.0, 0.0, -0.086389, -0.0, -0.291117, 0.0, 797.941135, -30.0, -1146.35686, 1.0, 'CarRacingDemo.x_PEObject22_NavMe.lua', 'CarRacingDemo',0xda596ef0, 0x6fb711e4, 0x9ebc8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject35_RoadStraight",-1.490656, 0.0, 1.333396, 0.0, 0.0, 2.0, -0.0, 0.0, -1.333396, -0.0, -1.490656, 0.0, -289.992243, 0.0, -756.935994, 1.0, 'CarRacingDemo.x_Track_PEObject35.lua', 'CarRacingDemo',0xb6a0b5b0, 0x6c9511e4, 0xb9178086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject20_NavMesh",-1.0, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -0.242707, 0.0, 132.700766, -30.0, -509.666404, 1.0, 'CarRacingDemo.x_PEObject20_NavMe.lua', 'CarRacingDemo',0xbdc462de, 0x6fb711e4, 0x8e548086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject14_RoadLeft45",-1.997441, 0.0, 0.101139, 0.0, 0.0, 2.0, -0.0, 0.0, -0.101139, -0.0, -1.997441, 0.0, -904.748653, 0.0, 1568.190095, 1.0, 'CarRacingDemo.x_Track_PEObject14.lua', 'CarRacingDemo',0xebc731cf, 0x6c9311e4, 0xa6de8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject41_RoadLeft45",-0.270059, 0.0, 1.981683, 0.0, 0.0, 2.0, -0.0, 0.0, -1.981683, -0.0, -0.270059, 0.0, 1087.84061, 0.0, -1153.880463, 1.0, 'CarRacingDemo.x_Track_PEObject41.lua', 'CarRacingDemo',0x52091a5e, 0x6c9611e4, 0x9d848086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject20_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.01, 0.0, -1674.315491, 0.0, 997.55548, 1.0, 'CarRacingDemo.x_Track_PEObject20.lua', 'CarRacingDemo',0x7020929e, 0x6c9411e4, 0x8afd8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject27_RoadStraight",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, -1670.396463, 0.0, -1126.92794, 1.0, 'CarRacingDemo.x_Track_PEObject27.lua', 'CarRacingDemo',0xdbaf5cde, 0x6c9411e4, 0x8f578086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject43_RoadStraight",-1.990112, 0.0, -0.198635, 0.0, 0.0, 2.0, -0.0, 0.0, 0.198635, -0.0, -1.990112, 0.0, 1253.614792, 0.0, -594.388805, 1.0, 'CarRacingDemo.x_Track_PEObject43.lua', 'CarRacingDemo',0x8b43fb5e, 0x6c9611e4, 0xa1ba8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject39_RoadLeft45",1.979375, 0.0, 0.286487, 0.0, 0.0, 2.0, -0.0, 0.0, -0.286487, -0.0, 1.979375, 0.0, 522.086053, 0.0, -998.181713, 1.0, 'CarRacingDemo.x_Track_PEObject39.lua', 'CarRacingDemo',0x0eae84cf, 0x6c9611e4, 0xb9b38086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject12_RoadRight45",-0.035809, 0.0, -1.999679, 0.0, 0.0, 2.0, -0.0, 0.0, 1.999679, -0.0, -0.035809, 0.0, -689.614016, 0.0, 1022.976993, 1.0, 'CarRacingDemo.x_Track_PEObject12.lua', 'CarRacingDemo',0xafc05f8f, 0x6c9311e4, 0xae508086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject12_NavMesh",-0.385076, 0.0, 0.518001, 0.0, 0.0, 1.0, -0.0, 0.0, -0.174639, -0.0, -0.129825, 0.0, -851.655916, -30.0, 1200.421945, 1.0, 'CarRacingDemo.x_PEObject12_NavMe.lua', 'CarRacingDemo',0x26877f70, 0x6fb711e4, 0x940a8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject37_RoadRight45",-0.216129, 0.0, 1.988288, 0.0, 0.0, 2.0, -0.0, 0.0, -1.988288, -0.0, -0.216129, 0.0, 222.695228, 0.0, -491.490322, 1.0, 'CarRacingDemo.x_Track_PEObject37.lua', 'CarRacingDemo',0xe3b45251, 0x6c9511e4, 0x89758086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject10_RoadStraight",-1.414892, 0.00381, 1.41353, 0.0, 0.005277, 1.999993, -0.000108, 0.0, -1.42766, 0.00369, -1.429046, 0.0, -151.705564, -0.0, 1234.588781, 1.0, 'CarRacingDemo.x_Track_PEObject10.lua', 'CarRacingDemo',0x7fbaac0f, 0x6c9311e4, 0x9e378086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject3_obj0",-2.0, 0.0, 0.0, 0.0, 0.0, 2.0, -0.0, 0.0, -0.0, -0.0, -2.0, 0.0, 1227.548633, 0.0, 608.378189, 1.0, 'CarRacingDemo.x_Track_PEObject3_.lua', 'CarRacingDemo',0x7aa77f5e, 0x6c9211e4, 0x91ee8086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject33_RoadStraight",-1.474467, 0.0, 1.351277, 0.0, 0.0, 2.0, -0.0, 0.0, -1.41884, -0.0, -1.54819, 0.0, -696.841126, 0.0, -1212.043343, 1.0, 'CarRacingDemo.x_Track_PEObject33.lua', 'CarRacingDemo',0x7b314170, 0x6c9511e4, 0xa4618086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject8_RoadStraight",-0.004275, 0.0, 1.999995, 0.0, 0.0, 2.0, -0.0, 0.0, -2.019995, -0.0, -0.004317, 0.0, 383.911044, 0.0, 1452.538026, 1.0, 'CarRacingDemo.x_Track_PEObject8_.lua', 'CarRacingDemo',0x533bae4f, 0x6c9311e4, 0xa9a58086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject40_RoadLeft45",1.17573, 0.0, 1.617918, 0.0, 0.0, 2.0, -0.0, 0.0, -1.698814, -0.0, 1.234517, 0.0, 769.875196, 0.0, -1193.852263, 1.0, 'CarRacingDemo.x_Track_PEObject40.lua', 'CarRacingDemo',0x381d354f, 0x6c9611e4, 0xa8148086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject15_RoadLeft45",-1.487846, 0.0, -1.33653, 0.0, 0.0, 2.0, -0.0, 0.0, 1.349895, -0.0, -1.502725, 0.0, -1113.273318, 0.0, 1809.401312, 1.0, 'CarRacingDemo.x_Track_PEObject15.lua', 'CarRacingDemo',0x00282cb0, 0x6c9411e4, 0x9c438086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject34_RoadStraight",-1.481886, 0.0, 1.343136, 0.0, 0.0, 2.0, -0.0, 0.0, -1.410292, -0.0, -1.555981, 0.0, -492.028917, 0.0, -985.806823, 1.0, 'CarRacingDemo.x_Track_PEObject34.lua', 'CarRacingDemo',0x95d8ae4f, 0x6c9511e4, 0x94518086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("Track_PEObject9_RoadLeft45",-0.019011, 0.0, -1.99991, 0.0, 0.0, 2.0, -0.0, 0.0, 1.99991, -0.0, -0.019011, 0.0, 78.59954, 0.0, 1453.485209, 1.0, 'CarRacingDemo.x_Track_PEObject9_.lua', 'CarRacingDemo',0x6cb2b180, 0x6c9311e4, 0xaa048086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject25_finishline",25.631192, 0.0, -0.0, 0.0, 0.0, 25.631192, -0.0, 0.0, -0.0, -0.0, 12.868806, 0.0, 1230.286285, 0.1, 0.130013, 1.0, 'CarRacingDemo.x_PEObject25_finis.lua', 'CarRacingDemo',0x592a9e1e, 0x71fc11e4, 0xba968086, 0xf21ff08f)
+
+LevelLoader.CreateGameObject("PEObject9_NavMesh",-1.73821, 0.0, 0.0, 0.0, 0.0, 1.0, -0.0, 0.0, -0.0, -0.0, -0.219049, 0.0, 522.859987, -30.0, 1445.526655, 1.0, 'CarRacingDemo.x_PEObject9_NavMes.lua', 'CarRacingDemo',0xf5062870, 0x6fb611e4, 0x8be98086, 0xf21ff08f)
+

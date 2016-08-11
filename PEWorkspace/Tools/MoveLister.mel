@@ -1,0 +1,839 @@
+// Name: moveLister.mel 6.7
+// Auth: Scott Easley
+// Date: 9/20/08
+// Desc: A movie clip list editor for a sequence of moves
+// Note: Now exports to Shockwave and Ogre. Includes a preview option.
+// To export, check the select box for the clip you want to export. Then press
+// the ExportShockWave button to export. Check the preview on box if you want to preview
+// the clip before it is exported.	The set button seems largely unneccessary right now, but
+// I'm leaving it for the time being.	
+
+global string $ML_Version = "6.7";
+global string $PB_PrependTx;
+global string $PB_PrependTx1;
+
+global proc MoveLister_setFrameRange( int $ML_min_time, int $ML_max_time )
+{
+	playbackOptions -e -min $ML_min_time;
+	playbackOptions -e -max $ML_max_time;
+}
+
+// This procedure adds items to the window
+global proc MoveLister_addItem(string $node, int $moveID)
+{
+	$nodeprefix = $node + ".move" + $moveID;
+	// Get attributes from node
+	string $seqName = `getAttr ($nodeprefix + "Name")`;
+	int $checked = `getAttr ($nodeprefix + "Chk")`;
+	int $minTime = `getAttr ($nodeprefix + "Min")`;
+	int $maxTime = `getAttr ($nodeprefix + "Max")`;
+
+	// Set up layout for controls
+  setParent MoveListerCol;
+  //separator -height 17 -width 425;
+	rowLayout -columnWidth5 75 200 33 33 42 -height 28 -numberOfColumns 5 -width 408;
+
+	// Create editable controls
+	string $ML_Checked, $ML_SeqName, $ML_Mintime, $ML_Maxtime;
+ 	$ML_Checked = `checkBox -height 28 -label "Select" -width 75 -v $checked -ann $node cb`;
+ 	$ML_SeqName = `textField -height 23 -width 200 -tx $seqName -ann $node tf`;
+	$ML_Mintime = `intField -height 23 -width 33 -v $minTime -ann $node minT`;
+	$ML_Maxtime = `intField -height 23 -width 33 -v $maxTime -ann $node maxT`;
+
+	// Link controls to MoveLister node
+	checkBox  -e -cc ("setAttr " + $nodeprefix + "Chk `checkBox -q -v " + $ML_Checked + "`") $ML_Checked;
+	textField -e -cc ("setAttr -type \"string\" " + $nodeprefix + "Name `textField -q -tx " + $ML_SeqName + "`") $ML_SeqName;
+	intField  -e -cc ("setAttr " + $nodeprefix + "Min `intField -q -v " + $ML_Mintime + "`") $ML_Mintime;
+	intField  -e -cc ("setAttr " + $nodeprefix + "Max `intField -q -v " + $ML_Maxtime + "`") $ML_Maxtime;
+
+	// Add button to set current frame range
+	string $ML_SetFrameCMD;
+	$ML_SetFrameCMD = "MoveLister_setFrameRange  `intField -q -v " + $ML_Mintime + " ` ` intField -q -v " + $ML_Maxtime + "` ";
+	button -height 28 -label "Set" -width 42 -c $ML_SetFrameCMD;
+}
+
+global proc MoveLister_AddMoveNode( string $nodename, int $currID )
+{
+  string $nameStr = "move" + $currID + "Name";
+  string $minStr = "move" + $currID + "Min";
+  string $maxStr = "move" + $currID + "Max";
+  string $chkStr = "move" + $currID + "Chk";
+
+  addAttr -longName ($nameStr) -dt "string";
+  addAttr -longName ($minStr) -at long;
+  addAttr -longName ($maxStr) -at long;
+  addAttr -longName ($chkStr) -at bool;
+
+  $nameStr = $nodename + ".move" + $currID + "Name";
+  $minStr = $nodename + ".move" + $currID + "Min";
+  $maxStr = $nodename + ".move" + $currID + "Max";
+  $chkStr = $nodename + ".move" + $currID + "Chk";
+
+  setAttr ($nameStr) -type "string" "";
+  setAttr ($minStr) `playbackOptions -q -min`;
+  setAttr ($maxStr) `playbackOptions -q -max`;
+  setAttr ($chkStr) false;
+}
+
+global proc MoveLister_MoveIncremID(string $nodename, string $counterAttr)
+{
+  string $countAttr = $nodename + "." + $counterAttr;
+  int $currID = `getAttr $countAttr`;
+  $currID++;
+  setAttr ($countAttr) $currID;
+}
+
+global proc MoveLister_AddNodeCountAttr(string $nodename, string $attributeName, int $initVal)
+{
+  string $tempname = $nodename + "." + $attributeName;
+  addAttr -longName $attributeName -at long;
+  setAttr $tempname 0;
+}
+
+// This procedure creates a new item
+global proc MoveLister_createItem()
+{
+  $nodename = "MoveLister";
+  string $nodecheck[] = `ls ($nodename)`;
+
+  if(size($nodecheck) == 0)
+  {
+    createNode "script" -n "MoveLister";
+    MoveLister_AddNodeCountAttr($nodename, "totalMoves", 0);
+  }
+  select $nodename;
+  //get the number of moves we currently have, tS will become
+  //new move-group's ID number as they are zero-indexed
+  string $countAttr = $nodename + ".totalMoves";
+  int $newItemID = `getAttr $countAttr`;
+
+  string $selectedStuff[] = `ls -sl`;
+
+  //add new group of move attributes, add UI item, increment total moves
+  MoveLister_AddMoveNode($nodename, $newItemID);
+  MoveLister_addItem($nodename, $newItemID);
+  MoveLister_MoveIncremID($nodename, "totalMoves");
+
+  select $selectedStuff;
+}
+
+// update the list by deleting items whose check marks are "on"
+global proc MoveLister_updateList()
+{
+	string $MoveListerColItems[] = `columnLayout -q -ca MoveListerCol`;
+	for ($i=6; $i<size($MoveListerColItems); $i++)
+	{
+		// check the state of the checkbox
+		string $currentRC = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[$i];
+		string $currentCB = $currentRC + "|cb";
+		string $delStr;
+		if (`checkBox -q -v $currentCB`)
+		{
+			$deletedItem[($i-6)] = true;
+			string $seqNode = `checkBox -q -ann $currentCB`;
+			deleteUI ($currentRC);
+			$delStr = "MoveLister.move" + ($i - 6) + "Name";
+			deleteAttr $delStr;
+			$delStr = "MoveLister.move" + ($i - 6) + "Min";
+			deleteAttr $delStr;
+			$delStr = "MoveLister.move" + ($i - 6) + "Max";
+			deleteAttr $delStr;
+			$delStr = "MoveLister.move" + ($i - 6) + "Chk";
+			deleteAttr $delStr;
+		}
+	}
+
+	//Decrement the counter of total moves stored in MoveLister node
+	string $newColItems[] = `columnLayout -q -ca MoveListerCol`;
+	setAttr "MoveLister.totalMoves" (size($newColItems)-6);
+  
+	//For each group of move-attributes, cycle through the dynamic attributes
+	//of the MoveLister node and rename each in order from 0 to n
+ 	string $seqAttr[] = `deleteAttr -q MoveLister`;
+ 	$i = 1;
+ 	$index = 0;
+ 	int $subTo;
+	while($i<size($seqAttr))
+  {
+    $numAfter = `substring $seqAttr[$i] 6 6`;
+
+		if(isValidString($numAfter,"([0-9])"))
+    {
+      $subTo = 6;
+    }
+    else
+    {
+      $subTo = 5;
+    }
+		
+    string $num = `substring $seqAttr[$i] 5 $subTo`;
+		//print($num); print("\n");
+    if($num != $index)
+    {
+      $oldStr = "MoveLister.move" + $num + "Name";
+      $newStr = "move" + $index + "Name";
+      //print($oldStr); print("\n"); print($newStr);
+      renameAttr $oldStr $newStr;
+      $oldStr = "MoveLister.move" + $num + "Min";
+      $newStr = "move" + $index + "Min";
+      renameAttr $oldStr $newStr;
+      $oldStr = "MoveLister.move" + $num + "Max";
+      $newStr = "move" + $index + "Max";
+      renameAttr $oldStr $newStr;
+      $oldStr = "MoveLister.move" + $num + "Chk";
+      $newStr = "move" + $index + "Chk";
+      renameAttr $oldStr $newStr;
+    }//end if
+		
+    $i += 4;
+		$index++;
+  }//end while
+
+	//update on-change commands of UI elements
+	for($i=4; $i<size($newColItems); $i++)
+  {
+		$nodeprefix = "MoveLister.move" + ($i-4);
+		string $currentRC = "MoveListerWin|ScrollBar|MoveListerCol|" + $newColItems[$i];
+		string $currentCB = $currentRC + "|cb";
+		string $currentNM = $currentRC + "|tf";
+		string $currentMIN = $currentRC + "|minT";
+		string $currentMAX = $currentRC + "|maxT";
+    
+    // Link controls to MoveLister node
+    checkBox  -e -cc ("setAttr " + $nodeprefix + "Chk `checkBox -q -v " + $currentCB + "`") $currentCB;
+    textField -e -cc ("setAttr -type \"string\" " + $nodeprefix + "Name `textField -q -tx " + $currentNM + "`") $currentNM;
+    intField  -e -cc ("setAttr " + $nodeprefix + "Min `intField -q -v " + $currentMIN + "`") $currentMIN;
+    intField  -e -cc ("setAttr " + $nodeprefix + "Max `intField -q -v " + $currentMAX + "`") $currentMAX;
+  }
+
+  if(`getAttr MoveLister.totalMoves` < 1)
+  {
+    delete MoveLister;
+  }
+}//end proc
+
+
+global proc MoveLister_MoveUp(int $counter)
+{
+	string $MoveListerColItems[] = `columnLayout -q -ca MoveListerCol`;
+//	$rowCounter = $counter;
+	print(`columnLayout -q -ca MoveListerCol`);
+	print "\n";
+	print $counter;
+	print "\n";
+	string $prevCB,$currCB;   
+	$numMoves = `getAttr MoveLister.totalMoves`;
+	
+	for($i=6; $i<=(size($MoveListerColItems)-1);  $i++)
+	{
+		// check the state of the checkbox
+    	string $thisRow = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[($i)];
+		setParent $thisRow;
+		string $prevCB; 
+
+		if (`checkBox -q -v "cb"`)
+		{
+      		if($i > 6)
+			{
+				string $prevRow = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[($i-1)];
+				
+        		setParent $prevRow;
+
+      	       	if(`checkBox -q -v "cb"` == false)
+				{
+               			setParent $thisRow;
+          				//if previous check box is NOT checked, let's move
+          				$currCB = ($thisRow + "|cb");
+          				string $currTex = ($thisRow + "|tf");
+          				string $currText = `textField -q -tx $currTex`;
+        				$currMi = ($thisRow + "|minT");
+        				$currMin = `intField -q -v $currMi`;
+        				$currMa = ($thisRow + "|maxT");
+        				$currMax = `intField -q -v $currMa`;
+
+						setParent $prevRow;
+          				$prevCB = ($prevRow + "|cb");
+          				string $prevTex = ($prevRow + "|tf");
+          				string $prevText = `textField -q -tx $prevTex`;
+        				$prevMi = ($prevRow + "|minT");
+        				$prevMin = `intField -q -v $prevMi`;
+        				$prevMa = ($prevRow + "|maxT");
+        				$prevMax = `intField -q -v $prevMa`;
+          				
+          				setParent $thisRow;
+          				// Set current row values to previous row values
+        				checkBox -e -v false ($currCB);
+        				textField -e -tx $prevText ($currTex);
+        				intField -e -v $prevMin ($currMi);
+        				intField -e -v $prevMax ($currMa);
+                 			
+						setParent $prevRow;
+          				// Set previous row values to current row values
+        				checkBox -e -v true ($prevCB);
+        				textField -e -tx $currText ($prevTex);
+        				intField -e -v $currMin ($prevMi);
+        				intField -e -v $currMax ($prevMa);
+               				
+						setAttr ("MoveLister.move" + (int)($i-(6-1)) + "Chk") (`checkBox -q -v $prevCB`);
+          				setAttr ("MoveLister.move" + (int)($i-(6-1)) + "Name") -type "string" $prevText;
+          				setAttr ("MoveLister.move" + (int)($i-(6-1)) + "Min") $prevMin;
+          				setAttr ("MoveLister.move" + (int)($i-(6-1)) + "Max") $prevMax;
+                  			
+						setAttr ("MoveLister.move" + (int)($i-6) + "Chk") (`checkBox -q -v $currCB`);
+          				setAttr ("MoveLister.move" + (int)($i-6) + "Name") -type "string" $currText;
+          				setAttr ("MoveLister.move" + (int)($i-6) + "Min") $currMin;
+          				setAttr ("MoveLister.move" + (int)($i-6) + "Max") $currMax;
+                }
+      		}
+    	}
+  	}
+}
+
+global proc MoveLister_MoveDown(int $counter)
+{
+	string $MoveListerColItems[] = `columnLayout -q -ca MoveListerCol`;
+	int $rowCounter = $counter;
+	print(`columnLayout -q -ca MoveListerCol`);
+  	for ($i=(size($MoveListerColItems)-1); $i>=6; $i--)
+  	{
+    		setParent MoveListerCol;
+    		// check the state of the checkbox
+    		string $thisRow = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[($i)];
+		
+    		setParent $thisRow;
+
+    		string $nextCB, $nextUIRow;
+
+    		if (`checkBox -q -v "cb"`){
+      		if($i != (size($MoveListerColItems)-1))
+      		{
+        			string $nextRow = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[($i+1)];
+				
+        			setParent $nextRow;
+
+        			if(`checkBox -q -v "cb"` == false)
+        			{
+          				setParent $thisRow;
+          				//if previous check box is NOT checked, let's move
+          				$currCB = ($thisRow + "|cb");
+          				string $currTex = ($thisRow + "|tf");
+          				string $currText = `textField -q -tx $currTex`;
+        				$currMi = ($thisRow + "|minT");
+        				$currMin = `intField -q -v $currMi`;
+        				$currMa = ($thisRow + "|maxT");
+        				$currMax = `intField -q -v $currMa`;
+          				
+          				setParent $nextRow;
+          				$nextCB = ($nextRow + "|cb");
+          				string $nextTex = ($nextRow + "|tf");
+          				string $nextText = `textField -q -tx $nextTex`;
+        				$nextMi = ($nextRow + "|minT");
+        				$nextMin = `intField -q -v $nextMi`;
+        				$nextMa = ($nextRow + "|maxT");
+        				$nextMax = `intField -q -v $nextMa`;
+          				
+          				setParent $thisRow;
+          				// Set current row values to previous row values
+        				checkBox -e -v false ($currCB);
+        				textField -e -tx $nextText ($currTex);
+        				intField -e -v $nextMin ($currMi);
+        				intField -e -v $nextMax ($currMa);
+                 			
+						setParent $nextRow;
+          				// Set previous row values to current row values
+        				checkBox -e -v true ($nextCB);
+        				textField -e -tx $currText ($nextTex);
+        				intField -e -v $currMin ($nextMi);
+        				intField -e -v $currMax ($nextMa);
+        				        
+          				setAttr ("MoveLister.move" + ($i-6) + "Chk") (`checkBox -q -v $currCB`);
+          				setAttr ("MoveLister.move" + ($i-6) + "Name") -type "string" $nextText;
+          				setAttr ("MoveLister.move" + ($i-6) + "Min") $nextMin;
+          				setAttr ("MoveLister.move" + ($i-6) + "Max") $nextMax;
+
+          				setAttr ("MoveLister.move" + ($i-(6-1)) + "Chk") (`checkBox -q -v $nextCB`);
+          				setAttr ("MoveLister.move" + ($i-(6-1)) + "Name") -type "string" $currText;
+          				setAttr ("MoveLister.move" + ($i-(6-1)) + "Min") $currMin;
+          				setAttr ("MoveLister.move" + ($i-(6-1)) + "Max") $currMax;
+
+        			}
+      			}
+    		}
+  	}
+}
+
+// Exports the the file in the FBX format
+global proc MoveLister_exportFbx()
+{
+	global string $PB_PrependTx; 
+	string $nodecheck[] = `ls ("MoveLister")`;
+	string $filePrepend = `textField -q -text $PB_PrependTx`;
+	
+	$FB_filename = `file -q -sn` + "";
+
+	// Get just the file name
+	string $fileName = match( "[^/\\]*$", $FB_filename );
+
+	// Get just the file dir
+	string $fileDir = match( "^.*/", $FB_filename );
+	
+	string $fbxLoc;
+	
+	// Generating the prefix for the file name
+	if($filePrepend != "") 
+	{
+		$fbxLoc = $fileDir + $filePrepend + "_";
+	}
+	else 
+	{
+		$fbxLoc = $fileDir;
+	}
+		
+	string $minStr;
+	string $maxStr;
+	$numMoves = `getAttr MoveLister.totalMoves`;
+	
+	for($i=0; $i<=$numMoves-1; $i++)
+    {
+		$nodeprefix = "MoveLister.move" + ($i);
+		// Get attributes from node
+		$moveName = `getAttr ($nodeprefix + "Name")`;
+		$moveMin  = `getAttr ($nodeprefix + "Min")`;
+		$moveMax  = `getAttr ($nodeprefix + "Max")`;
+		
+		// Creating the new individual FBX files
+		int $negMoveMin = (0 - $moveMin);
+		select -all;
+		cutKey -time ("-1000:"+$moveMin);
+		cutKey -time ($moveMax+":10000");
+		keyframe -edit -relative -timeChange $negMoveMin -time ($moveMin+":"+$moveMax);
+		
+		// Exporting the individual FBX files
+		string $currentFBX = $fbxLoc + $moveName + ".fbx";	
+		FBXExport -f $currentFBX;
+		confirmDialog -title "Script Success" -message ("Your FBX file has been saved at: \n\n" + $currentFBX) -button "OK";
+		
+		// Undoing all the previous commands and setting back to the original settings.
+		undo;
+		undo;
+		undo;
+		undo;
+	}
+}
+
+global proc MoveLister_shockExport()
+{
+	string $nodecheck[] = `ls ("MoveLister")`;
+	string $arg1 = "";
+	string $arg2 = "";
+
+  string $MoveListerColItems[] = `columnLayout -q -ca MoveListerCol`;
+
+	for ($i=4; $i<size($MoveListerColItems); $i++)
+  {
+		// check the state of the checkbox
+		string $currentRC = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[$i];
+		//print("currentRC: "+$currentRC+"\n");
+		string $currentCB = $currentRC + "|cb";
+		//print("currentCB: "+$currentCB+"\n");
+		if (`checkBox -q -v $currentCB`)
+    {
+			$nodeprefix = "MoveLister.move" + ($i-4);
+			// Get attributes from node
+      $moveName = `getAttr ($nodeprefix + "Name")`;
+			$moveMin  = `getAttr ($nodeprefix + "Min")`;
+			$moveMax  = `getAttr ($nodeprefix + "Max")`;
+    		
+			MoveLister_setFrameRange($moveMin,$moveMax);
+
+			string $outputfile = `workspace -q -rd`;
+			$outputfile = "\""+ $outputfile + "w3d/" + $moveName + ".w3d" + "\"";
+			$arg1 = "-f "+$outputfile+" ";
+			
+      if(`checkBox -q -value previewBox` == true)
+      {
+        $arg2 = "-c current -an -ami " + $moveMin + " -ama " + $moveMax + " -man -al -oew -opc -ofs -osm -op  -do  -rdv  -sm  -eas  -mrs  -res 1  -hse  -hst 75  -gc 0 -tc 0 -ac 0 -ts 512 -pts 512 -pw 640 -ph 480 -useSpecularColor -ignoreTextureAlpha 1 -p -pm NonInteractive";
+			}
+			else
+      {
+				$arg2 = "-c current -an -ami " + $moveMin + " -ama " + $moveMax + " -man -al -oew -opc -ofs -osm -op  -do  -rdv  -sm  -eas  -mrs  -res 1  -hse  -hst 75  -gc 0 -tc 0 -ac 0 -ts 512 -pts 512 -pw 640 -ph 480 -useSpecularColor -ignoreTextureAlpha 1";
+			}
+      
+			print("Args: " + $arg1 + "\n");
+			eval s3dExport $arg1 $arg2;
+			//eval("s3dSaveExportOptions"); 
+			//eval("s3dExportCallback(0 , 0)");
+    }//end for
+  }//end if
+}//end proc
+
+global proc MoveLister_ogreExport()
+{
+
+// ==================== This checks on all things that need checking to export, auto-names them.
+
+checkBox -e -value true ExportMesh;
+checkBox -e -value true ExportMaterial;
+checkBox -e -value true ExportSkeleton;
+checkBox -e -value true ExportAnimCurves;
+checkBox -e -value true ExportSkelAnims;
+checkBox -e -value true CopyTextures;
+string $MLsceneFile    = `file -query -sceneName`;
+	string $MLmayaFile     = basename($MLsceneFile, "");
+	string $MLsceneDir     = dirname($MLsceneFile);
+	string $MLbaseFile     = basename($MLsceneFile, ".ma");
+string $MLbuffer[];
+tokenize ($MLbaseFile, ".", $MLbuffer);
+string $MLName = $MLbuffer[0];
+print $MLName;
+textField -e -text ($MLName + ".mesh") ExportMeshFilename;
+textField -e -text ($MLName + ".material") ExportMaterialFilename;
+textField -e -text ($MLName + ".skeleton") ExportSkeletonFilename;
+textField -e -text ($MLName + ".anims") ExportAnimCurvesFilename;
+
+// ==================== Done with auto-enabling
+
+  global int $numSkelClips;
+  if(`getAttr MoveLister.totalMoves` > 0)
+  {
+    while($numSkelClips > 0)
+    {
+      deleteUI("SkelClipFrame"+$numSkelClips);
+      $numSkelClips--;
+    }
+
+    $numMoves = `getAttr MoveLister.totalMoves`;
+
+    for($i=0; $i<=$numMoves; $i++)
+    {
+      $moveName = `getAttr ("MoveLister.move" + $i + "Name")`;
+      $moveMin = `getAttr ("MoveLister.move" + $i + "Min")`;
+      $moveMax = `getAttr ("MoveLister.move" + $i + "Max")`;
+
+      addOgreExporterSkeletonClip();
+
+      checkBox -e -value true	("ExportSkelClip"+$numSkelClips);
+    	textField -e -text ($moveName)	("SkelClipName"+$numSkelClips);
+    	radioButtonGrp -e -select 1 ("SkelClipRangeRadio"+$numSkelClips);
+    	floatField -e -value ($moveMin)	("SkelClipRangeStart"+$numSkelClips);
+    	floatField -e -value ($moveMax) ("SkelClipRangeEnd"+$numSkelClips);
+    }
+    formatOgreExporterUI();
+  }
+}
+
+
+// TS procedure creates the window and populates the list
+global proc MoveLister_window()
+{
+  // delete any pre-existing windows and start fresh
+  if (`window -exists MoveListerWin`)
+    deleteUI MoveListerWin;
+
+  global string $ML_Version;
+  global string $PB_PrependTx;
+  global string $PB_PrependTx1;
+  global int $rowLayoutCounter; 
+  $rowLayoutCounter = 3;
+
+  // create the main to do window
+  window -t ("MoveLister "+$ML_Version) -rtf true -w 200 -h 200 MoveListerWin;
+
+  // Region Balki
+   scrollLayout -hst 16 -vst 16 ScrollBar;
+  // End Region
+
+  columnLayout -adj true MoveListerCol;
+
+  rowLayout -nc 6 -cw6 40 40 20 40 40 77  btnRow;
+  button -label "Add" -align "center" -height 25 -width 40 -backgroundColor .5 .7 .5  -c "MoveLister_createItem()";
+  button -label "Delete" -align "center" -height 25 -width 40 -bgc .7 .5 .5 -c  "MoveLister_updateList()";
+  text -l "";
+  symbolButton -height 25 -width 40 -image "alignvmax.xpm" -annotation "alignvmax.xpm" -c "MoveLister_MoveUp($rowLayoutCounter)"; 
+  symbolButton -height 25 -width 40 -image "alignvmin.xpm" -annotation "alignvmin.xpm" -c "MoveLister_MoveDown($rowLayoutCounter)"; 
+  
+  setParent ..;
+  				
+  separator -w 100 -style "double";
+  
+  // Tool Controls
+  frameLayout -label "Tool Controls" -collapsable 1;
+  columnLayout;
+  
+  // The Prefix text box
+  rowLayout -nc 3 -cw3 20 55 265;
+  text -l "";
+  text -l "Prefix";
+  $PB_PrependTx = `textField -height 23 -width 265`;
+  setParent ..;
+  // End Prefix Controls
+  
+  // PlayBlast Controls
+  rowLayout -nc 3 -cw3 20 190 60;
+  text -l "";
+  text -l "To generate the multiple Playblast";
+  button -l "PlayBlast" -width 55 -bgc .545 .644 .957 -c "MoveLister_orderPlayBlast()";
+  setParent ..;
+  // End PlayBlast Controls 
+  
+    // Fbx Controls
+  if (`pluginInfo -q -l fbxmaya`)
+  {
+	  $rowLayoutCounter++;
+	  // Fbx Controls
+	  rowLayout -nc 3 -cw3 20 190 60;
+	  text -l "";
+	  text -l "To generate multiple FBXs";
+	  button -l "FbxGen" -width 55 -bgc 1 .818 .345 -c "MoveLister_exportFbx()";
+	  setParent ..;
+	}
+  // End Fbx Controls
+  
+  // Shockwave Controls
+  if (`pluginInfo -q -l MayaShockwave3DExporter`)
+  {
+	$rowLayoutCounter++;
+	rowLayout -nc 4 -cw4 20 190 100 25;
+	text -l "";
+	text -l "To generate the Shockwave Export";
+    button -height 20 -label "ShockwaveExport" -width 100 -bgc .545 .957 .644-c  "MoveLister_shockExport()";
+    checkBox -height 20 -width 77 -label "Preview On" previewBox;
+    setParent ..;
+  }
+  // End Shockwave Controls
+  
+  // Ogre Export Controls
+  if (`pluginInfo -q -l ogreExporter`)
+  {
+	$rowLayoutCounter++;
+	rowLayout -nc 3 -cw3 20 190 55;
+	text -l "";
+	text -l "To generate the Ogre Export";
+    button -height 20 -label "OgreExport" -width 75 -bgc .7 .4 .4 -c  "MoveLister_ogreExport()";
+    setParent ..;
+  }
+  // End Ogre Export
+ 
+  setParent ..;
+  setParent ..;	
+
+  // End tool Controls
+  separator -w 100 -style "out";
+
+  rowLayout -nc 4 -cw4 170 110 30 50 txtRow; 
+  // Select All Controls
+  checkBox -height 17 -label "Select All" -width 100 -cc "MoveLister_SelectAll_Change($rowLayoutCounter)" MoveLister_SelectAll;
+  // End Select All Controls
+  
+  text -height 17 -label "Move" -width 100;
+  text -height 17 -al "left" -label "Start" -width 30;
+  text -height 17 -label "End" -width 25;
+  setParent ..;
+
+ 
+  separator -w 100 -style "out";
+  print $rowLayoutCounter;
+
+  showWindow MoveListerWin;
+
+	// Populate the list by going through existing nodes in the scene
+	string $nodecheck[] = `ls ("MoveLister")`;
+	if( (size($nodecheck) > 0) && ($nodecheck[0] == "MoveLister") )
+	{
+	int $totalMoves = `getAttr "MoveLister.totalMoves"`;		
+	for($i=0; $i<$totalMoves; $i++)
+	{
+		MoveLister_addItem("MoveLister", $i);
+    	}
+	} //else { }
+}
+
+// Region Balki
+global proc MoveLister_SelectAll_Change(int $rowLayoutCounter)
+{
+  int $totalMoves = `getAttr "MoveLister.totalMoves"`;
+  int $amISelected = `checkBox -q -v "MoveLister_SelectAll"`;
+  
+  for ($i = 0; $i < $totalMoves; $i++)
+  {
+	string $checkBoxName = "MoveListerWin|ScrollBar|MoveListerCol|rowLayout" + ($i + $rowLayoutCounter) + "|cb";
+    checkBox -e -v $amISelected $checkBoxName;
+    
+    string $checkBoxAttributeName = "MoveLister.move" + $i + "Chk";
+    setAttr $checkBoxAttributeName $amISelected;
+  }
+}
+// End Region
+
+global proc MoveLister_orderPlayBlast()
+{
+	global string $PB_PrependTx; 
+	string $nodecheck[] = `ls ("MoveLister")`;
+	string $filePrepend = `textField -q -text $PB_PrependTx`;
+	string $MoveListerColItems[] = `columnLayout -q -ca MoveListerCol`;
+
+	for ($i=6; $i<size($MoveListerColItems); $i++)
+	{
+		// check the state of the checkbox
+		string $currentRC = "MoveListerWin|ScrollBar|MoveListerCol|" + $MoveListerColItems[$i];
+		string $currentCB = $currentRC + "|cb";
+		if (`checkBox -q -v $currentCB`)
+		{
+			$nodeprefix = "MoveLister.move" + ($i-6);
+			
+			// Get attributes from node
+			$moveName = `getAttr ($nodeprefix + "Name")`;
+			$moveMin  = `getAttr ($nodeprefix + "Min")`;
+			$moveMax  = `getAttr ($nodeprefix + "Max")`;
+    		
+			MoveLister_setFrameRange($moveMin,$moveMax);
+			MoveLister_Playblast($filePrepend, $moveName, $moveMin, $moveMax);
+		}
+    }
+}
+
+global proc MoveLister_Playblast(string $ML_Prepend_Text, string $ML_move_name, int $startTime, int $endTime)
+{
+  if(`objExists "persp"`)
+  {
+    global string $gPlayBackSlider;
+    // Tweak Variables to change camera name or resolution of playblast video.
+	$HI_shotCam = "persp";
+	$HI_blackThick = 1;
+	$HI_SvHres = 320;
+	$HI_SvVres = 240;
+      
+
+//headsUpDisplay -l $ML_move_name -s 5 -b 1 ATRdisplay;
+
+	// Getting rid of possible viewport displays
+	setAttr "persp.displayFilmOrigin" 0;
+	setAttr "persp.displayFilmPivot" 0;
+	setAttr "persp.displaySafeTitle" 0;
+	setAttr "persp.displaySafeAction" 0;
+	setAttr "persp.displayFieldChart" 0;
+	setAttr "persp.displayResolution" 0;
+	setAttr "persp.displayFilmGate" 0;
+	//setAttr "persp.BarnDoors" 10;
+
+	// Creating the window view to be playblasted
+	int $winHeight = ( $HI_SvVres + ( 2 * $HI_blackThick ) ) + 75;
+	int $winWidth = ( $HI_SvHres + ( 2 * $HI_blackThick ) ) + 15 ;
+
+	window -t "MoveLister Playblast" -w $winWidth -h $winHeight -s false HI_shotWin;
+	rowLayout shotForm;
+	paneLayout -w ( $HI_SvHres + 6 ) -h ( $HI_SvVres + 6 ) shotViewzPanel;
+	catchQuiet ( `deleteUI -pnl shotViewzEditor` );
+	modelPanel -mbv false -camera "persp" -p shotViewzPanel shotViewzEditor;
+	headsUpDisplay -l $ML_move_name -s 5 -b 1 ATRdisplay;
+
+
+
+	showWindow;
+
+	// Variables needed for playblast settings
+	//string $sounds[] =`ls -type "audio"`;
+	string $sound = `timeControl -q -s $gPlayBackSlider`;
+	$FB_filename = `file -q -sn` + "";	
+	string $filename_noExt[];
+	$numTokens = `tokenize $FB_filename "." $filename_noExt`;
+	print ($FB_filename + "\n\n"+$numTokens + "\n\n");
+	if($numTokens > 2) {
+	  $FB_filename = $filename_noExt[0];
+	  for($i=1; $i<($numTokens-1); $i++){
+		$FB_filename += "." + $filename_noExt[$i];
+	  }
+	} else {
+	  $FB_filename = $filename_noExt[0];
+	}
+	
+	// Get just the file name
+	string $fileName = match( "[^/\\]*$", $FB_filename );
+
+	// Get just the file dir
+	string $fileDir = match( "^.*/", $FB_filename );
+
+	print ($FB_filename + "\n\n"+$numTokens + "\n\n");
+
+
+	// Begin StraightenUp();
+	string $currentPanel = `getPanel -withFocus`;
+	modelEditor -e -allObjects 0 $currentPanel;
+	modelEditor -e -polymeshes 1 $currentPanel;
+	modelEditor -e -nurbsSurfaces 1 $currentPanel;
+	setObjectPickMask "All" 0;
+	setObjectPickMask "Rendering" true;
+
+	DisplayShadedAndTextured;
+	// End StraightenUp();
+		
+	// Begin SceneFrameCounter
+
+	//ADDING SCENE NAME
+	if (`headsUpDisplay -exists HUDSceneName`)
+	  // headsUpDisplay -rem HUDSceneName;
+	  print "there was HUDSceneName";
+
+	if (`headsUpDisplay -exists HUDFrameCount`) {
+	  print "there was";
+	} else {
+	  //headsUpDisplay
+	  //-section 5
+	  //-block 1
+	  //-blockSize "small"
+	  //-dfs "large"
+	  //-lfs large
+	  //-command tscene
+	  //-atr
+	  //HUDSceneName;
+
+	  headsUpDisplay -rp 9 1;
+
+	  //ADDING FRAME COUNTER
+	  headsUpDisplay
+	  -section 9
+	  -block 1
+	  -blockSize "small"
+	  -dfs "large"
+	  -ao 1
+	  -lfs large
+	  // -l "FRAME "
+	  -command "currentTime -q"
+	  -atr
+	  HUDFrameCount;
+	} // end SceneFrameCounter
+
+	if($ML_Prepend_Text != "") {
+		if($sound != "")
+			playblast -f ($fileDir + $ML_Prepend_Text + "_" + $ML_move_name + ".avi") -fo -viewer 0 -startTime ( $startTime ) -endTime ( $endTime ) -format movie -w $HI_SvHres -h $HI_SvVres -clearCache 0 -showOrnaments 1 -percent 100 -sound $sound;
+		else
+			playblast -f ($fileDir + $ML_Prepend_Text + "_" + $ML_move_name + ".avi") -fo -viewer 0 -startTime ( $startTime ) -endTime ( $endTime ) -format movie -w $HI_SvHres -h $HI_SvVres -clearCache 0 -showOrnaments 1 -percent 100;		
+
+	  deleteUI -window HI_shotWin;
+	  confirmDialog -title "Script Success" -message ("Your playblast file has been saved at: \n\n" + $fileDir + $ML_Prepend_Text + "_" + $ML_move_name + ".avi") -button "OK";
+	} else {
+		if($sound != "")
+			playblast -f ($fileDir + $ML_move_name + ".avi") -fo -viewer 0 -startTime ( $startTime ) -endTime ( $endTime ) -format movie -w $HI_SvHres -h $HI_SvVres -clearCache 0 -showOrnaments 1 -percent 100 -sound $sound;
+		else
+			playblast -f ($fileDir + $ML_move_name + ".avi") -fo -viewer 0 -startTime ( $startTime ) -endTime ( $endTime ) -format movie -w $HI_SvHres -h $HI_SvVres -clearCache 0 -showOrnaments 1 -percent 100;
+			
+		  deleteUI -window HI_shotWin;
+		  confirmDialog -title "Script Success" -message ("Your playblast file has been saved at: \n\n" + $fileDir + $ML_move_name + ".avi") -button "OK";			
+	}
+	
+  } else {
+	confirmDialog -title "Error Running Script" -message "persp cam does not exist in this scene." -button "OK";
+  }
+ headsUpDisplay -rem ATRdisplay;
+
+
+}
+
+global proc string tscene() {
+	$filename = basename(`file -q -sn`, ".mb");
+	return $filename;
+}
+
+MoveLister_window;
+
+

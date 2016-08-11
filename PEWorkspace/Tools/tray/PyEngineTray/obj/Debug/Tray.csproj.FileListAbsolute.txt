@@ -1,0 +1,8 @@
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PyEngineTray\obj\Debug\ResolveAssemblyReference.cache
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PyEngineTray\obj\Debug\WindowsFormsApplication1.Form1.resources
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PyEngineTray\obj\Debug\PrimeEngineTray.Properties.Resources.resources
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PyEngineTray\obj\Debug\Tray.csproj.GenerateResource.Cache
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PyEngineTray\obj\Debug\PrimeEngine Tray.exe
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PyEngineTray\obj\Debug\PrimeEngine Tray.pdb
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PrimeEngine Tray.exe
+F:\Projects\csci499\MainDev\PEWorkspace\Tools\tray\PrimeEngine Tray.pdb
